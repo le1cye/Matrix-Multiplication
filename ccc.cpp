@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "Initialization.h"
 #include "PrintToFile.h"
+#include"Matrix Operation.h"
 
 
 int main(int argc,char *argv[])
@@ -43,27 +44,16 @@ int main(int argc,char *argv[])
 	//	}
 	//}
 
-	int i,j;
+	int i,j,k,Bandwidth;
 	char *Directory1,*Directory2;
 	Directory1 = "C:\\Users\\Administrator\\Desktop\\Array.txt";
 	Directory2 = "C:\\Users\\Administrator\\Desktop\\Matrix.txt";
 
-	//************动态数组（一维）***********//
-	//声明//
-	printf("Please set array size\n");
-	scanf("%d",&i);
-	double *CoordX,*CoordY,*CoordZ;
-	CoordX = (double*)malloc(i*sizeof(double));
-	CoordY = (double*)malloc(i*sizeof(double));
-	CoordZ = (double*)malloc(i*sizeof(double));
 
-	InitializeArray(CoordX,i,0.0);
-	InitializeArray(CoordY,i,1.0);
-	InitializeArray(CoordZ,i,2.0);
 
 	//************动态数组（二维）***********//
 	double **Matrix;
-	int m = 5,n = 10;
+	int m = 10,n = 10;
 
 	Matrix = (double**)malloc(m*sizeof(double*));
 	for(i=0;i<m;i++)
@@ -72,13 +62,33 @@ int main(int argc,char *argv[])
 	}
 
 	InitializeMatrix(Matrix,m,n,0.0);
+	Bandwidth=5;
+
+	for(i=0;i<m;i++)
+	{
+		Matrix[i][i]=(double)Bandwidth;
+		if(i<=m-Bandwidth)
+		{
+			k=Bandwidth;
+		}
+		else
+		{
+			k=m-i;
+		}
+		for(j=1;j<k;j++)
+		{
+			Matrix[i][i+j]=Bandwidth-j;
+			Matrix[i+j][j]=Bandwidth-j;
+		}
+	}
+
 	PrintMatrix(Matrix,Directory2,"BBB",m,n);
 
 	system("pause");
 
 	//************从文件读取***********//
-	FILE *fp;
-	double x,y,z;
+	//FILE *fp;
+	/*double x,y,z;
 	for(j=0;j<i;j++)
 	{
 		fscanf(fp,"%lf %lf %lf",&x,&y,&z);
@@ -92,7 +102,7 @@ int main(int argc,char *argv[])
 	scanf("%d",&i);
 	printf("%lf %lf %lf\n",CoordX[i],CoordY[i],CoordZ[i]);
 
-	system("pause");
+	system("pause");*/
 
 	//************条件判断***********//
 	//If Else//
